@@ -7,8 +7,8 @@ close all; % closes all figures
 
 %% Setup
 % read images and convert to floating point format
-image1 = im2single(imread('data/dog.bmp'));
-image2 = im2single(imread('data/cat.bmp'));
+image1 = im2single(imread('data/bird.bmp'));
+image2 = im2single(imread('data/plane.bmp'));
 
 % Several additional test cases are provided for you, but feel free to make
 % your own (you'll need to align the images in a photo editor such as
@@ -17,7 +17,7 @@ image2 = im2single(imread('data/cat.bmp'));
 % you asign as image2 (which will provide the high frequencies)
 
 %% Filtering and Hybrid Image construction
-cutoff_frequency = 7; %This is the standard deviation, in pixels, of the 
+cutoff_frequency = 4.0; %This is the standard deviation, in pixels, of the 
 % Gaussian blur that will remove the high frequencies from one image and 
 % remove the low frequencies from another image (by subtracting a blurred
 % version from the original version). You will want to tune this for every
@@ -34,27 +34,46 @@ filter = fspecial('Gaussian', cutoff_frequency*4+1, cutoff_frequency);
 % blur that works best will vary with different image pairs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%low_frequencies = 
-
+low_frequencies = imfilter(image1, filter)
+..................................................................................................................
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Remove the low frequencies from image2. The easiest way to do this is to
 % subtract a blurred version of image2 from the original version of image2.
 % This will give you an image centered at zero with negative values.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%high_frequencies = 
+high_frequencies = image2 - imfilter(image2, filter)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Combine the high frequencies and low frequencies
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%hybrid_image = 
+hybrid_image = low_frequencies + high_frequencies
+
+%%%
+% Perform the fourier transform bullshit
+gray_image = mat2gray(hybrid_image)   % <--- CHANGE THIS TO GET THE DIFFERENT IMAGES
+figure(4), imagesc(log(abs(fftshift(fft2(gray_image)))))
+
+gray_image = mat2gray(image1)   % <--- CHANGE THIS TO GET THE DIFFERENT IMAGES
+figure(5), imagesc(log(abs(fftshift(fft2(gray_image)))))
+
+gray_image = mat2gray(image2)   % <--- CHANGE THIS TO GET THE DIFFERENT IMAGES
+figure(6), imagesc(log(abs(fftshift(fft2(gray_image)))))
+
+gray_image = mat2gray(low_frequencies)   % <--- CHANGE THIS TO GET THE DIFFERENT IMAGES
+figure(7), imagesc(log(abs(fftshift(fft2(gray_image)))))
+
+gray_image = mat2gray(high_frequencies)   % <--- CHANGE THIS TO GET THE DIFFERENT IMAGES
+figure(8), imagesc(log(abs(fftshift(fft2(gray_image)))))
+%%%
 
 %% Visualize and save outputs
 figure(1); imshow(low_frequencies)
 figure(2); imshow(high_frequencies + 0.5);
 vis = vis_hybrid_image(hybrid_image);
 figure(3); imshow(vis);
+figure(9); imshow(hybrid_image)
 imwrite(low_frequencies, 'low_frequencies.jpg', 'quality', 95);
 imwrite(high_frequencies + 0.5, 'high_frequencies.jpg', 'quality', 95);
 imwrite(hybrid_image, 'hybrid_image.jpg', 'quality', 95);
