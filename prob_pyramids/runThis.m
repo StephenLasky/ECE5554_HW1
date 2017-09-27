@@ -15,3 +15,9 @@ function displayFFT(im, minv, maxv)
 % Displays FFT images
 
 end
+
+
+
+
+
+
