@@ -2,40 +2,58 @@ function im = gaussian_filter( im )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
-sigma = 2
-f_width = 5 % we assume this is an odd number
+% no threads ~ 4.7 sec
+% N = 1 ~ 9.5 sec
+% N = 2 ~ 9.5 sec
+% N = 4 ~ 9.7 sec
+% parfor on innerloop > 30 sec
 
+% LASTN = maxNumCompThreads(2)
+% N = maxNumCompThreads
+
+sigma = 2;
+f_width = 25; % we assume this is an odd number
+f_rad = (f_width-1)/2;
+f_size = f_width*f_width;
+
+% create matrix where the new image will be stored
 [rows,cols] = size(im);
-new_im = zeros(rows,cols, 'single');
+new_im = zeros(rows + 2*f_rad,cols + 2*f_rad, 'single');
 
-for row = 1:512         % should be rows
-    for col = 1:512     % should be cols
-        sum = 0.0;
+% pad the original image with zeros
+im = padarray(im,[f_rad f_rad],0,'both');
+
+
+
+
+% construct the filter +
+filter = ones(f_width,f_width,'single');
+
+
+
+for row = 1+f_rad:rows+f_rad         
+    for col = 1+f_rad:cols+f_rad 
         
-        for f_row = 1:f_width
-            for f_col = 1:f_width
-                % so, our current pixel is at row,col
-                % the filter pixel is currently at f_row, f_col
-                % need to calculate the pixels we are operating on, n_row
-                % and n_col
-                
-                n_row = row - (f_width-1)/2 + f_row - 1;
-                n_col = col - (f_width-1)/2 + f_col - 1;
-                
-                if n_row < 1 || n_col < 1 || n_row > rows || n_col > cols
-                    sum = sum + 1.0;
-                else
-                    sum = sum + im(n_row,n_col);
-                end
-            end
-        end
+        % compute the submatrix to grab
+        sub_mtx_rows = [row-f_rad, row+f_rad];
+        sub_mtx_cols = [col-f_rad, col+f_rad];
         
-        average = sum / (f_width*f_width);
-        new_im(row,col) = average;
+        
+
+        sub_mtx = im(sub_mtx_rows(1):sub_mtx_rows(2),sub_mtx_cols(1):sub_mtx_cols(2));
+            
+            % move this out later
+            summation = sum(sub_mtx);
+            summation = sum(summation);
+            average = summation / f_size;
+            new_im(row,col) = average;
+
+        
+
     end
 end
 
-im = new_im;
+im = new_im(1+f_rad:rows+f_rad,1+f_rad:cols+f_rad);
 
 
 
