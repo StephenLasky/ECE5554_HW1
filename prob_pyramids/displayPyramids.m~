@@ -1,0 +1,20 @@
+function displayPyramids(G, L)
+% Displays intensity and fft images of pyramids
+% assumes the FIRST element in the G, L array is the original image
+% also assumes that the images are not the same size and are presented in
+% the following order: original, original/2, original/4, original/8, etc..
+
+size = size(G)
+[height, width] = size(G(0))
+new_frame = zeros(height, width * size)
+
+curr_x = 1
+
+for i = 1:size
+    % up-sample the image as necessary
+    for j=1:(i-1)
+        up
+end
+
+
+end
