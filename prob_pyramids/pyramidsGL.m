@@ -6,13 +6,14 @@ function [G, L] = pyramidsGL(im, N)
 im = rgb2gray(im2single(imread('tesla.jpg')));
 sigma = 1;
 
-G = [im];
+G = {im};
+L = {}
 
-for iteration = 2:N
+for i = 2:N
     im = gaussian_filter(im,sigma);
     im = downsample(im);
     
-    G = [G,im];
+    G{i} = im;
 end
 
 
