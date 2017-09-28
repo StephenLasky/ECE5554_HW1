@@ -1,5 +1,5 @@
 im = rgb2gray(im2single(imread('tesla.jpg')));
-[G,L] = pyramidsGL(im,7);
+[G,L] = pyramidsGL(im,10);
 
 displayPyramids(G,L);
 
@@ -20,7 +20,7 @@ displayPyramids(G,L);
 % figure(2); imshow(im);
 
 
-
+disp('Program finished.')
 
 
 
