@@ -40,9 +40,12 @@ end
 for col = 1:f_rad
     im(1:rows+2*f_rad,col) = im(1:rows+2*f_rad,f_rad+1);
 end
-for col = cols+f_rad+1:cols+2*f_rad
-    im(1:rows+2*f_rad,col) = im(1:rows+2*f_rad,f_rad+cols);
+for col = 1:f_rad
+    im(1:rows+2*f_rad,col) = im(1:rows+2*f_rad,f_rad+1);
 end
+
+
+
 
 
 for row = 1+f_rad:rows+f_rad         

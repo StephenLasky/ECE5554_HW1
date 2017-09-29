@@ -7,35 +7,28 @@ im = rgb2gray(im2single(imread('tesla.jpg')));
 sigma = 1;
 
 G = {im};
-   
-for i = 2:N+1             % need to compute 1 additional level for laplacian pyramid, need to remove this level later
+
+for i = 2:N
     im = gaussian_filter(im,sigma);
     im = downsample(im);
-%     im = imresize(im, 0.5,' nearest');
     
     G{i} = im;
 end
 
 im = G{1,1};
-L = {};
+im = laplacian_filter(im,0.4);
+L = {im}
 
-for i = 1:N
+for i = 2:N
     % for the laplacian image:
     % L_0 = G_0 - UPSAMPLE(G_1)
     % where L_0 is current laplacian image we are trying to calculate
-    % G_0 is current gaussian image
-    % G_1 is next gaussian image
-    G_0 = G{1,i};
-    G_1 = G{1,i+1};
-    G_1 = upsample(G_1);
-    L_0 = G_0 - G_1;
+    % 
     
-    
-    L{i} = L_0;
+    L{i} = im;
 end
 
 
-G = G(1,1:N);      % delete the extra gaussian image
 
 
 end

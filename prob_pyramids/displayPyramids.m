@@ -17,6 +17,7 @@ for i = 1:g_length
     % up-sample the image as necessary
     for j=1:(i-1)
         im = upsample(im);
+%         im = imresize(im, 2,' nearest');
     end
     
     % now add the image to the new frame
@@ -28,5 +29,23 @@ end
 
 imwrite(new_frame, 'GPyramid.jpg', 'quality', 100);
 
+curr_x = 1;
+
+for i = 1:g_length
+    im = L{1,i};
+    im = im + 0.5;  % used to add lighting so we can actually see the image
+    % up-sample the image as necessary
+    for j=1:(i-1)
+%         im = imresize(im, 2,' nearest');
+        im = upsample(im);
+    end
+    
+    % now add the image to the new frame
+    xs = curr_x;
+    xe = curr_x + width - 1;
+    new_frame(1:height,xs:xe) = im(1:height,1:width);
+    curr_x = curr_x + width;
+end
+imwrite(new_frame, 'LPyramid.jpg', 'quality', 100);
 
 end
