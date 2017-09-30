@@ -1,0 +1,20 @@
+im = im2single(imread('data/images/101085.jpg'));
+
+
+% gradientMagnitude(im,1);
+
+% bmap = edgeGradient(im);
+
+[mag,theta] = gradientMagnitude(im,1);
+figure(); imshow(mag+0.5);
+
+sigma = 1;
+filter = fspecial('Gaussian', sigma*4+1, sigma);
+im = imfilter(im, filter);
+figure(); imshow(im);
+[mag,theta] = gradientMagnitude(im,1);
+figure(); imshow(mag+0.5);
+
+
+
+display('Program finished.');
