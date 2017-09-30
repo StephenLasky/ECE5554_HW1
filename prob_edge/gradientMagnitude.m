@@ -11,9 +11,9 @@ im = imfilter(im, filter);
 gradients = zeros(height,width,depth,2, 'single');
 
 % first compute x and y gradients for each pixel for each r,g,b value
-for color = 1:1 % REMINDER: CHANGE TO :depth
-    gradients(1:height,1:width,color,1) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'x');
-    gradients(1:height,1:width,color,2) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'y');
+for color = 1:depth % REMINDER: CHANGE TO :depth
+    gradients(1:height,1:width,color,1) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'x', 0);
+    gradients(1:height,1:width,color,2) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'y', 0);
 end
 
 %  You will have Rx, Gx, Bx, take the L2-norm of them, you will get the x-gradient 
@@ -21,10 +21,14 @@ end
 
 new_gradients = zeros(height,width,2);
 % x direction
-new_gradients(1:height,1:width,1) = gradients(1:height,1:width,1,1) .^ 2 + gradients(1:height,1:width,2,1) .^ 2 + gradients(1:height,1:width,3,1);
+for color = 1:depth
+    new_gradients(1:height,1:width,1) = new_gradients(1:height,1:width,1) + gradients(1:height,1:width,color,1) .^ 2;
+end
 new_gradients(1:height,1:width,1) = new_gradients(1:height,1:width,1) .^ (0.5);
 % y direction
-new_gradients(1:height,1:width,2) = gradients(1:height,1:width,1,2) .^ 2 + gradients(1:height,1:width,2,2) .^ 2 + gradients(1:height,1:width,3,2);
+for color = 1:depth
+    new_gradients(1:height,1:width,2) = new_gradients(1:height,1:width,2) + gradients(1:height,1:width,color,2) .^ 2;
+end
 new_gradients(1:height,1:width,2) = new_gradients(1:height,1:width,2) .^ (0.5);
 
 % finally, compute the mag and theta for each pixel

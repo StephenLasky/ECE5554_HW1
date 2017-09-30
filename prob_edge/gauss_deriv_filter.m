@@ -1,4 +1,4 @@
-function im = gauss_deriv_filter( im, sigma, direction )
+function im = gauss_deriv_filter( im, sigma, direction, theta )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -7,7 +7,7 @@ f_width = 1 + 2 * f_rad;            % we assume this is an odd number
 f_size = f_width*f_width;
 
 % construct the filter 
-filter = gaussian_derivative(direction, sigma);
+filter = gaussian_derivative_rotated(direction, sigma, theta);
 
 % create matrix where the new image will be stored
 [rows,cols] = size(im);
