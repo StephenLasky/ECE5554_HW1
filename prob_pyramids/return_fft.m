@@ -8,9 +8,12 @@ h = imagesc(log(abs(fftshift(fft2(im))))); % imagesc handle
 %turn off the axes
 axis off
 %save the image
-saveas(im,'test.png')
+saveas(h,'test.png')
 %read the saved image
-im = imread('test.png');
+im_fft = im2single(imread('test.png'));
+%remove white border
+sum_img = sum(im_fft,3); sum_img(sum_img(:) ~= 255*3) = 0; sum_img = logical(sum_img);
+im = im_fft(~all(sum_img,2), ~all(sum_img,1),:);
 
 
 
