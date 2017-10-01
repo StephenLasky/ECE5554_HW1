@@ -2,9 +2,8 @@ function im = gaussian_filter( im, sigma )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
-f_rad = ceil(3 * sigma);          % compute the radius of the filter
-f_width = 1 + 2 * f_rad;    % we assume this is an odd number
-% f_rad = (f_width-1)/2;
+f_rad = ceil(3 * sigma);            % compute the radius of the filter
+f_width = 1 + 2 * f_rad;            % we assume this is an odd number
 f_size = f_width*f_width;
 
 % construct the filter 
