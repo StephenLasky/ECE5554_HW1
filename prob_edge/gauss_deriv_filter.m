@@ -1,13 +1,11 @@
-function im = gauss_deriv_filter( im, sigma, direction, theta )
-%UNTITLED3 Summary of this function goes here
+function im = gauss_deriv_filter( im, sigma, direction, theta, a )
+% IMPLEMENTS gauss derivative filter
 %   Detailed explanation goes here
 
-f_rad = ceil(3 * sigma);            % compute the radius of the filter
-f_width = 1 + 2 * f_rad;            % we assume this is an odd number
-f_size = f_width*f_width;
-
 % construct the filter 
-filter = gaussian_derivative_rotated(direction, sigma, theta);
+filter = gaussian_derivative_rotated(direction, sigma, theta, a);
+[f_height, f_width] = size(filter);
+f_rad = (f_width-1)/2;
 
 % create matrix where the new image will be stored
 [rows,cols] = size(im);

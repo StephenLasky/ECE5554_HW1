@@ -12,8 +12,8 @@ gradients = zeros(height,width,depth,2, 'single');
 
 % first compute x and y gradients for each pixel for each r,g,b value
 for color = 1:depth % REMINDER: CHANGE TO :depth
-    gradients(1:height,1:width,color,1) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'x', 0);
-    gradients(1:height,1:width,color,2) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'y', 0);
+    gradients(1:height,1:width,color,1) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'x', 0, 1);
+    gradients(1:height,1:width,color,2) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'y', 0, 1);
 end
 
 %  You will have Rx, Gx, Bx, take the L2-norm of them, you will get the x-gradient 

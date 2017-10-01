@@ -1,6 +1,7 @@
 function [mag,theta] = orientedFilterMagnitude(im)
 
 sigma = 1;
+a = 4;          % applies amplitude to the gaussian derivative filter
 
 % smooth image first
 filter = fspecial('Gaussian', sigma*4+1, sigma);
@@ -16,7 +17,7 @@ gradients = zeros(height,width,depth,num_directions, 'single');
 % directions, for each color
 for color = 1:depth
     for theta = 0:num_directions-1
-        gradients(1:height,1:width,color,theta+1) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'x', theta_step*theta);
+        gradients(1:height,1:width,color,theta+1) = gauss_deriv_filter(im(1:height,1:width,color),sigma,'x', theta_step*theta, a);
     end
 end
 

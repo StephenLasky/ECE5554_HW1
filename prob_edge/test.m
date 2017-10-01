@@ -8,9 +8,13 @@ im = im2single(imread('swedishflag.jpg'));
 % figure(); imshow(filter * 500000 + 0.5);
 
 
-im = edgeGradient(im);
+im2 = edgeOrientedFilters(im);
+figure(); imshow(im2);
 
+im = edgeGradient(im);
 figure(); imshow(im);
+
+
 
 
 display('Program finished.');
